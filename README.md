@@ -37,7 +37,7 @@ and launch the Service Worker with the following snippet:
         /**
          * Define which link-rel's should be preloaded if enabled.
          */
-        const PREFETCH_LINK_RELS = ['next', 'prev', 'prefetch'];
+        const PREFETCH_LINK_RELS = ['index','next', 'prev', 'prefetch'];
 
         /**
          * prefetchCache
