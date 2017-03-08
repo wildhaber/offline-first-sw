@@ -70,7 +70,8 @@ function isBlacklisted(url) {
  * @returns {string}
  */
 function getFileExtension(url) {
-    return (url.endsWith('/')) ? '/' : url.split('.').reverse()[0];
+    let extension = url.split('.').reverse()[0].split('?')[0];
+    return (extension.endsWith('/')) ? '/' : extension;
 }
 
 /**
