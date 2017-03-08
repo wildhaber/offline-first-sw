@@ -117,7 +117,10 @@ function installServiceWorker() {
                     }
                 )
         ]
-    );
+    )
+        .then(() => {
+            return self.skipWaiting();
+        });
 }
 
 /**
@@ -181,10 +184,40 @@ function cleanupLegacyCache() {
     );
 }
 
+function precacheUrl(url) {
+    if(!isBlacklisted(url)) {
+        caches.open(CACHE_VERSIONS.content)
+            .then((cache) => {
+                cache.match(url)
+                    .then((response) => {
+                        if(!response) {
+                            return fetch(url)
+                        } else {
+                            // already in cache, nothing to do.
+                            return null
+                        }
+                    })
+                    .then((response) => {
+                        if(response) {
+                            return cache.put(url, response.clone());
+                        } else {
+                            return null;
+                        }
+                    });
+            })
+    }
+}
+
+
 
 self.addEventListener(
     'install', event => {
-        event.waitUntil(installServiceWorker());
+        event.waitUntil(
+            Promise.all([
+                installServiceWorker(),
+                self.skipWaiting(),
+            ])
+        );
     }
 );
 
@@ -195,6 +228,8 @@ self.addEventListener(
             Promise.all(
                 [
                     cleanupLegacyCache(),
+                    self.clients.claim(),
+                    self.skipWaiting(),
                 ]
             )
                 .catch(
@@ -238,7 +273,7 @@ self.addEventListener(
                                                 return new Promise(
                                                     (resolve) => {
 
-                                                        return fetch(event.request)
+                                                        return fetch(event.request.clone())
                                                             .then(
                                                                 (updatedResponse) => {
                                                                     if (updatedResponse) {
@@ -280,7 +315,7 @@ self.addEventListener(
                                     if (response) {
                                         return response;
                                     } else {
-                                        return fetch(event.request)
+                                        return fetch(event.request.clone())
                                             .then(
                                                 (response) => {
 
@@ -328,3 +363,22 @@ self.addEventListener(
 
     }
 );
+
+
+self.addEventListener('message', (event) => {
+
+    if(
+        typeof event.data === 'object' &&
+        typeof event.data.action === 'string'
+    ) {
+        switch(event.data.action) {
+            case 'cache' :
+                precacheUrl(event.data.url);
+                break;
+            default :
+                console.log('Unknown action: ' + event.data.action);
+                break;
+        }
+    }
+
+});
