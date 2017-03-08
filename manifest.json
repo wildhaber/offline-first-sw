@@ -1,0 +1,30 @@
+{
+  "name": "<your-apps-name>",
+  "short_name": "<your-apps-shortname>",
+  "icons": [{
+    "src": "/img/icons/logo-128x128.png",
+    "sizes": "128x128",
+    "type": "image/png"
+  }, {
+    "src": "/img/icons/logo-144x144.png",
+    "sizes": "144x144",
+    "type": "image/png"
+  }, {
+    "src": "/img/icons/logo-152x152.png",
+    "sizes": "152x152",
+    "type": "image/png"
+  }, {
+    "src": "/img/icons/logo-192x192.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  }, {
+    "src": "/img/icons/logo-256x256.png",
+    "sizes": "256x256",
+    "type": "image/png"
+  }],
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation" : "portrait",
+  "background_color": "#000000",
+  "theme_color": "#000000"
+}
