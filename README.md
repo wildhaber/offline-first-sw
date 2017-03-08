@@ -1,5 +1,7 @@
 # Service Worker Example
 
+![offline first poster](https://github.com/wildhaber/offline-first-sw/blob/master/offline-first-sw.jpg "offline first poster")
+
 ## Features
 
  - Custom offline page
