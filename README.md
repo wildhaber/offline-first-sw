@@ -117,7 +117,7 @@ Copy the [**manifest.json**](https://github.com/wildhaber/offline-first-sw/blob/
 ```shell
 # simple wget-snippet or do it manually
 # cd /your-projects-root-directory/
-wget https://raw.githubusercontent.com/wildhaber/offline-first-sw/master/manifest.js
+wget https://raw.githubusercontent.com/wildhaber/offline-first-sw/master/manifest.json
 ```
 
 And create the following link-snippet within your page's `<head>`-Section:
