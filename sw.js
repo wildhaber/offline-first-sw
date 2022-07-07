@@ -1,5 +1,6 @@
 const CACHE_VERSION = 1;
 
+const ServerApiPath = "/api";
 const BASE_CACHE_FILES = [
     '/style.css',
     '/script.js',
@@ -268,7 +269,15 @@ self.addEventListener(
                                             let age = parseInt((new Date().getTime() - date.getTime()) / 1000);
                                             let ttl = getTTL(event.request.url);
 
-                                            if (ttl && age > ttl) {
+                                            let byPassCach = false;
+
+                                            //added this line to bypass cache for server requests
+                                            //update ServerApiPath with your own server api path
+                                            if (event.request.url.toLowerCase().includes(ServerApiPath)) {
+                                                byPassCach = true;
+                                            }
+
+                                            if (byPassCach || (ttl && age > ttl)) {
 
                                                 return new Promise(
                                                     (resolve) => {
